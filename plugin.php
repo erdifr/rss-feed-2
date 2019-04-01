@@ -6,8 +6,9 @@ class pluginRSSFeed extends Plugin {
 	{
 		// Fields and default values for the database of this plugin
 		$this->dbFields = array(
+			'rssFeedFile' => 'feed.rss',
 			'rssFeedItemLimit' => 10,
-			'rssFeedCopyright' => 'CC By-SA 4.0',
+			'rssFeedCopyright' => '',
 			'rssFeedGenerator' => 'Bludit - Flat-File CMS',
 			'rssFeedTTL' => 60
 		);
@@ -18,37 +19,62 @@ class pluginRSSFeed extends Plugin {
 	{
 		global $L;
 
+		// RSS Feed File
+		$rssFeedFile = $this->getValue('rssFeedFile');
+		// RSS Feed Copyright
+		$rssFeedCopyright = $this->getValue('rssFeedCopyright');
+
 		$html  = '<div class="alert alert-primary" role="alert">';
 		$html .= $this->description();
 		$html .= '</div>';
 
 		$html .= '<div>';
 		$html .= '<label>'.$L->get('rss-feed-url').'</label>';
-		$html .= '<a href="'.DOMAIN_BASE.'rss2.xml">'.DOMAIN_BASE.'rss2.xml</a>';
+		$html .= '<a href="'.DOMAIN_BASE.$rssFeedFile.'">'.DOMAIN_BASE.$rssFeedFile.'</a>';
 		$html .= '<span class="tip">'.$L->get('rss-feed-url-tip').'</span>';
 		$html .= '</div>';
 
 		$html .= '<div>';
 		$html .= '<label>'.$L->get('rss-feed-item-limit').'</label>';
-		$html .= '<input id="jsrssFeedItemLimit" name="rssFeedItemLimit" type="text" value="'.$this->getValue('rssFeedItemLimit').'">';
+		$html .= '<input id="jsrssFeedItemLimit" name="rssFeedItemLimit" type="number" title="Valid input range: -1 - 100" min="-1" max="100" value="'.$this->getValue('rssFeedItemLimit').'">';
 		$html .= '<span class="tip">'.$L->get('rss-feed-item-limit-tip').'</span>';
 		$html .= '</div>';
 
 		$html .= '<div>';
 		$html .= '<label>'.$L->get('rss-feed-copyright').'</label>';
-		$html .= '<input id="jsrssFeedCopyright" name="rssFeedCopyright" type="text" value="'.$this->getValue('rssFeedCopyright').'">';
-		$html .= '<span class="tip">'.$L->get('rss-feed-copyright-tip').'</span>';
+		$html .= '<select id="jsrssFeedCopyright" name="rssFeedCopyright">';
+
+		if (!empty($rssFeedCopyright)) {
+			$html .= '<option value="'.$ssFeedCopyright.'">'.$rssFeedCopyright.'</option>';
+		} else {
+			$html .= '<option value="DISABLE">DISABLE</option>';
+		}
+
+		$html .= '<option value="CC BY 4.0">CC BY 4.0</option>';
+		$html .= '<option value="CC BY-SA 4.0">CC BY-SA 4.0</option>';
+		$html .= '<option value="CC BY-ND 4.0">CC BY-ND 4.0</option>';
+		$html .= '<option value="CC BY-NC 4.0">CC BY-NC 4.0</option>';
+		$html .= '<option value="CC BY-NC-SA 4.0">CC BY-NC-SA 4.0</option>';
+		$html .= '<option value="CC BY-NC-ND 4.0">CC BY-NC-ND 4.0</option>';
+		$html .= '<option value="DISABLE">DISABLE</option>';
+		$html .= '</select>';
+
+		if (!empty($rssFeedCopyright)) {
+			$html .= '<span class="tip">'.$L->get('rss-feed-copyright-tip').$rssFeedCopyright.'</span>';
+		} else {
+			$html .= '<span class="tip">'.$L->get('rss-feed-copyright-tip').'DISABLE</span>';
+		}
 		$html .= '</div>';
 
 		$html .= '<div>';
 		$html .= '<label>'.$L->get('rss-feed-generator').'</label>';
-		$html .= '<input id="jsrssFeedGenerator" name="rssFeedGenerator" type="text" value="'.$this->getValue('rssFeedGenerator').'">';
+		$html .= '<input id="jsrssFeedGenerator" name="rssFeedGenerator" pattern="[a-zA-ZÀ-ž0-9-_. !]+" title="Valid: !, -, _, ., a-z, A-Z, À-ž, 0-9" maxlength="50" type="text" value="'.$this->getValue('rssFeedGenerator').'">';
 		$html .= '<span class="tip">'.$L->get('rss-feed-generator-tip').'</span>';
 		$html .= '</div>';
 
 		$html .= '<div>';
 		$html .= '<label>'.$L->get('rss-feed-ttl').'</label>';
-		$html .= '<input id="jsrssFeedTTL" name="rssFeedTTL" type="text" value="'.$this->getValue('rssFeedTTL').'">';
+		$html .= '<input id="jsrssFeedTTL" name="rssFeedTTL" type="number" title="Valid input range: 0 - 1440" min="0" max="1440" value="'.$this->getValue('rssFeedTTL').'">';
 		$html .= '<span class="tip">'.$L->get('rss-feed-ttl-tip').'</span>';
 		$html .= '</div>';
 
@@ -63,13 +89,12 @@ class pluginRSSFeed extends Plugin {
 
 		// Amount of pages to show
 		$rssFeedItemLimit = $this->getValue('rssFeedItemLimit');
-
 		// RSS Feed Copyright
 		$rssFeedCopyright = $this->getValue('rssFeedCopyright');
-
+		// RSS Feed File
+		$rssFeedFile = $this->getValue('rssFeedFile');
 		// RSS Feed Generator
 		$rssFeedGenerator = $this->getValue('rssFeedGenerator');
-
 		// RSS Feed ttl
 		$rssFeedTTL = $this->getValue('rssFeedTTL');
 
@@ -93,20 +118,20 @@ class pluginRSSFeed extends Plugin {
 		$xml .= '<language>'.Theme::lang().'</language>';
 
 		// Add copyright to RSS Feed channel if enabled
-		if (!empty($rssFeedCopyright)) {
-			$xml .= '<copyright>'.$this->getValue('rssFeedCopyright').'</copyright>';
+		if (!empty($rssFeedCopyright) && ($rssFeedCopyright !== 'DISABLE')) {
+			$xml .= '<copyright>'.$rssFeedCopyright.'</copyright>';
 		}
 
 		$xml .= '<lastBuildDate>'.date(DATE_RSS).'</lastBuildDate>';
 
 		// Add generator to RSS Feed channel if enabled
 		if (!empty($rssFeedGenerator)) {
-			$xml .= '<generator>'.$this->getValue('rssFeedGenerator').'</generator>';
+			$xml .= '<generator>'.$rssFeedGenerator.'</generator>';
 		}
 
 		// Add ttl to RSS Feed channel if enabled
-		if (!empty($rssFeedTTL)) {
-			$xml .= '<ttl>'.$this->getValue('rssFeedTTL').'</ttl>';
+		if (!empty($rssFeedTTL) && ($rssFeedTTL !== 0)) {
+			$xml .= '<ttl>'.$rssFeedTTL.'</ttl>';
 		}
 
 		// Get keys of pages
@@ -138,7 +163,7 @@ class pluginRSSFeed extends Plugin {
 		$doc = new DOMDocument();
 		$doc->formatOutput = true;
 		$doc->loadXML($xml);
-		return $doc->save($this->workspace().'rss2.xml');
+		return $doc->save($this->workspace().$rssFeedFile);
 	}
 
 	public function install($position=0)
@@ -172,20 +197,25 @@ class pluginRSSFeed extends Plugin {
 	{
 		global $site;
 
-		return '<link rel="alternate" type="application/rss+xml" href="'.DOMAIN_BASE.'rss2.xml" title="'.$site->title().' - RSS Feed">'.PHP_EOL;
+		// RSS Feed File
+		$rssFeedFile = $this->getValue('rssFeedFile');
+
+		return '<link rel="alternate" type="application/rss+xml" href="'.DOMAIN_BASE.$rssFeedFile.'" title="'.$site->title().' - RSS Feed">'.PHP_EOL;
 	}
 
 	public function beforeAll()
 	{
-		$webhook = 'rss2.xml';
-		if ($this->webhook($webhook)) {
+		// RSS Feed File
+		$rssFeedFile = $this->getValue('rssFeedFile');
+
+		if ($this->webhook($rssFeedFile)) {
 			// Send XML header
 			header('Content-type: text/xml');
 			$doc = new DOMDocument();
 
 			// Load XML
 			libxml_disable_entity_loader(false);
-			$doc->load($this->workspace().'rss2.xml');
+			$doc->load($this->workspace().$rssFeedFile);
 			libxml_disable_entity_loader(true);
 
 			// Print the XML
