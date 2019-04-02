@@ -45,7 +45,7 @@ class pluginRSSFeed extends Plugin {
 		$html .= '<select id="jsrssFeedCopyright" name="rssFeedCopyright">';
 
 		if (!empty($rssFeedCopyright)) {
-			$html .= '<option value="'.$ssFeedCopyright.'">'.$rssFeedCopyright.'</option>';
+			$html .= '<option value="'.$rssFeedCopyright.'">'.$rssFeedCopyright.'</option>';
 		} else {
 			$html .= '<option value="DISABLE">DISABLE</option>';
 		}
