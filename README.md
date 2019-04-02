@@ -50,6 +50,10 @@ RSS Feed 2 has all the functionality of [Bludit RSS Feed plugin](https://github.
 
 ## Version History
 
+- ```v0.0.3```
+
+	1. Fixed a typo in ```plugin.php``` and bumped ```rss-feed-2``` to ```v0.0.3```.
+
 - ```v0.0.2```
 
 	1. RSS feed URL changed from ```http://example.com/rss2.xml``` to ```http://example.com/feed.rss```.
