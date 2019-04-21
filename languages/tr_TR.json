@@ -1,0 +1,17 @@
+{
+	"plugin-data":
+	{
+		"name": "RSS Beslemesi 2",
+		"description": "Sitenizin bir RSS yayınını oluşturur. <br>URL: http://example.com/feed.rss"
+	},
+	"rss-feed-copyright": "RSS yayını telif hakkı",
+	"rss-feed-copyright-tip": "<a href=\"https://creativecommons.org/licenses/\">Telif hakkı lisanları</a> hakkında daha fazla bilgi.<br>Varsayılan: KAPALI. Mevcut: ",
+	"rss-feed-generator": "RSS beslemesi oluşturucu",
+	"rss-feed-generator-tip": "RSS beslemesini oluşturmak için kullanılan programı gösteren bir dize.<br> Varsayılan: \"Bludit - Düz Dosya CMS\". Devre dışı bırakmak için boş bırakın.",
+	"rss-feed-item-limit": "RSS yayını öğe sınırı",
+	"rss-feed-item-limit-tip": "RSS beslemesinde en yüksek öğe sayısı.<br>Varsaylan: \"10\". \"-1\" TÜM sayfaları yazdırır.",
+	"rss-feed-ttl": "RSS beslemesi TTL",
+	"rss-feed-ttl-tip": "Yayın okuyucunun RSS yayınını yenilemeden önceki dakika sayısı.<br>Varsayılan: \"60\" (önerilen). Kapatmak için \"0\" seçin. <a href=\"http://www.rssboard.org/rss-profile#element-channel-ttl\">ttl hakkında daha fazla bilgi edinin</a>.",
+	"rss-feed-url": "RSS besleme adresi",
+	"rss-feed-url-tip": "Kullanıcıların RSS yayınınıza abone olmak için kullandıkları URL."
+}
