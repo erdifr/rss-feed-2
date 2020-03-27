@@ -1,0 +1,17 @@
+{
+	"plugin-data":
+	{
+		"name": "RSS Feed 2",
+		"description": "Добавляет RSS-каналы с контентом на ваш сайт Bludit.<br>URL: https://example.com/feed.rss"
+	},
+	"rss-feed-copyright": "Копирайт",
+	"rss-feed-copyright-tip": "Больше информации о <a href=\"https://creativecommons.org/licenses/\">копирайте и типах лицензий</a>.<br>По-умолчанию: Выключено. Сейчас: ",
+	"rss-feed-generator": "RSS фид-генератор",
+	"rss-feed-generator-tip": "Строка, указывающая программу, используемую для генерации RSS-ленты.<br> По-умолчанию: \"Bludit - CMS основанная лишь на файлах\". Оставьте пустым чтобы отключить.",
+	"rss-feed-item-limit": "Лимит записей в RSS-ленте",
+	"rss-feed-item-limit-tip": "Максимальное количество элементов в RSS-ленте.<br>По-умолчанию: \"10\". Значение \"-1\" снимает лимит (в ленте будут ВСЕ записи).",
+	"rss-feed-ttl": "TTL RSS-ленты",
+	"rss-feed-ttl-tip": "Количество минут до того, как RSS-лента обновится.<br>По-умолчанию: \"60\" (рекомендовано). Введите \"0\" что отключить. <a href=\"http://www.rssboard.org/rss-profile#element-channel-ttl\">Больше информации о TTL (на английском)</a>.",
+	"rss-feed-url": "URL-адрес RSS-ленты",
+	"rss-feed-url-tip": "URL, который люди будут использовать для подписки на вашу RSS-ленту."
+}
